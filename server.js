@@ -3,7 +3,7 @@ const express = require('express');
 const superagent = require('superagent');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // 1st param -Path
 // 2nd param -Function
