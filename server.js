@@ -26,4 +26,4 @@ function getRecipes(request, response) {
 }
 
 // Starts server, always at end of file
-app.listen(PORT, () => console.log(`Listening on port 3000`));
+app.listen(PORT, () => console.log(`Listening on port 3000***********************************************************************************************************************`));
