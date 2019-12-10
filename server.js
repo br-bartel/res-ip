@@ -1,6 +1,11 @@
 // importing libraries 
 const express = require('express');
 const superagent = require('superagent');
+const pg = require('pg');
+
+// creates the connection between this server and the database
+const client = new pg.Client(process.env.DATABASE_URL);
+client.connect();
 
 const app = express();
 const PORT = 3000;
