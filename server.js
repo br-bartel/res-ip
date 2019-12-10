@@ -8,7 +8,7 @@ const client = new pg.Client(process.env.DATABASE_URL);
 client.connect();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // 1st param -Path
 // 2nd param -Function
@@ -31,4 +31,4 @@ function getRecipes(request, response) {
 }
 
 // Starts server, always at end of file
-app.listen(PORT, () => console.log(`Listening on port 3000`));
+app.listen(PORT, () => console.log(`Listening on port 3000***********************************************************************************************************************`));
