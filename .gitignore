@@ -106,6 +106,7 @@ dist
 # User Defined
 .DS_Store
 *.diff
+.vscode
 
 # dotenv enviroment variables file
 .env
