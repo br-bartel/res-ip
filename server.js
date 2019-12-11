@@ -51,8 +51,9 @@ function saveRecipe(request, response) {
   const values = [request.body.title, request.body.href, request.body.ingredients];
   client.query(SQL, values)
     .then(result => {
-      response.send(result.rows[0].id);
-    });
+      response.send({"info" : result.rows[0].id});
+    })
+    .catch(error => console.log(error));
 }
 
 // Starts server, always at end of file
