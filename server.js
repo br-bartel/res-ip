@@ -10,8 +10,8 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 
 // creates the connection between the server and the database
-const database = new pg.Client(process.env.DATABASE_URL);
-database.connect();
+// const database = new pg.Client(process.env.DATABASE_URL);
+// database.connect();
 
 const app = express();
 const PORT = 3000;
@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 // 2nd param -Function
 app.get('/', greeting);
 app.get('/recipes', getRecipes);
-app.post('/save', saveRecipe);
+//app.post('/save', saveRecipe);
 
 // request: all the 'stuff' we're sending to the server
 // response: all the 'stuff' we're sending back to the user
@@ -38,7 +38,8 @@ function greeting(request, response) {
 }
 
 function getRecipes(request, response) {
-    const url = `http://www.recipepuppy.com/api/?q=noodles`;
+    console.log(request.query.food);
+    const url = `http://www.recipepuppy.com/api/?q=${request.query.food}`;
 
     superagent.get(url)
     .then(result => {
@@ -48,16 +49,16 @@ function getRecipes(request, response) {
     .catch(error => console.error(error));
 }
 
-function saveRecipe(request, response) {
-  console.log(request.body);
-  const SQL = `INSERT INTO recipes (title, url, ingredients) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING RETURNING id;`;
-  const values = [request.body.title, request.body.href, request.body.ingredients];
-  database.query(SQL, values)
-    .then(result => {
-      response.send({"info" : result.rows[0].id});
-    })
-    .catch(error => console.error(error));
-}
+// function saveRecipe(request, response) {
+//   console.log(request.body);
+//   const SQL = `INSERT INTO recipes (title, url, ingredients) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING RETURNING id;`;
+//   const values = [request.body.title, request.body.href, request.body.ingredients];
+//   database.query(SQL, values)
+//     .then(result => {
+//       response.send({"info" : result.rows[0].id});
+//     })
+//     .catch(error => console.error(error));
+// }
 
 // Starts server, always at end of file
 app.listen(PORT, () => console.log(`Listening on port 3000`));
