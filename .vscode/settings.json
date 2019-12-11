@@ -1,8 +1,0 @@
-{
-    "appService.zipIgnorePattern": [
-        "node_modules{,/**}",
-        ".vscode{,/**}"
-    ],
-    "appService.deploySubpath": "",
-    "appService.defaultWebAppToDeploy": "/subscriptions/aefb43b4-c2b2-470d-a48d-3c3b26b2d6da/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/res-ip"
-}
