@@ -29,6 +29,7 @@ app.use(bodyParser.json());
 // 2nd param -Function
 app.get('/', greeting);
 app.get('/recipes', getRecipes);
+// app.get('/list', createList);
 //app.post('/save', saveRecipe);
 
 // request: all the 'stuff' we're sending to the server
