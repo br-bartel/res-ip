@@ -5,6 +5,7 @@ const express = require('express');
 const superagent = require('superagent');
 const pg = require('pg');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 // Brings in information that shouldn't be shared
 require('dotenv').config();
@@ -14,7 +15,8 @@ require('dotenv').config();
 // database.connect();
 
 const app = express();
-const PORT = 3000;
+const PORT = 3001;
+app.use(cors());
 
 // Used to retrieve data from POST requests
 // https://stackoverflow.com/questions/38294730/express-js-post-req-body-empty
