@@ -29,7 +29,8 @@ app.use(bodyParser.json());
 // 2nd param -Function
 app.get('/', greeting);
 app.get('/recipes', getRecipes);
-//app.post('/save', saveRecipe);
+app.get('/list', createList);
+app.post('/save', saveRecipe);
 
 // request: all the 'stuff' we're sending to the server
 // response: all the 'stuff' we're sending back to the user
@@ -51,16 +52,25 @@ function getRecipes(request, response) {
     .catch(error => console.error(error));
 }
 
-// function saveRecipe(request, response) {
-//   console.log(request.body);
-//   const SQL = `INSERT INTO recipes (title, url, ingredients) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING RETURNING id;`;
-//   const values = [request.body.title, request.body.href, request.body.ingredients];
-//   database.query(SQL, values)
-//     .then(result => {
-//       response.send({"info" : result.rows[0].id});
-//     })
-//     .catch(error => console.error(error));
-// }
+function saveRecipe(request, response) {
+  console.log(request.body);
+  const SQL = `INSERT INTO recipes (title, url, ingredients) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING RETURNING id;`;
+  const values = [request.body.title, request.body.href, request.body.ingredients];
+  database.query(SQL, values)
+    .then(result => {
+      response.send({"info" : result.rows[0].id});
+    })
+    .catch(error => console.error(error));
+}
+
+function createList(request, response) {
+  const SQL = `SELECT * FROM recipes;`;
+  database.query(SQL)
+    .then(result => {
+      console.log(result);
+    })
+  .catch(error => console.error(error));
+}
 
 // Starts server, always at end of file
 app.listen(PORT, () => console.log(`Listening on port 3000`));
