@@ -11,8 +11,8 @@ const cors = require('cors');
 require('dotenv').config();
 
 // creates the connection between the server and the database
-// const database = new pg.Client(process.env.DATABASE_URL);
-// database.connect();
+const database = new pg.Client(process.env.DATABASE_URL);
+database.connect();
 
 const app = express();
 const PORT = 3001;
@@ -67,7 +67,8 @@ function createList(request, response) {
   const SQL = `SELECT * FROM recipes;`;
   database.query(SQL)
     .then(result => {
-      console.log(result);
+      console.log(result.rows);
+      response.send(result.rows);
     })
   .catch(error => console.error(error));
 }
