@@ -11,11 +11,47 @@ const cors = require('cors');
 require('dotenv').config();
 
 // creates the connection between the server and the database
-const database = new pg.Client(process.env.DATABASE_URL);
-database.connect();
+const config = {
+  host: process.env.DATABASE_URL,
+  user: process.env.USER_NAME,     
+  password:  process.env.PASSWORD,
+  database:  'postgres',
+  port:  5432,
+  ssl: true,
+};
+
+const database = new pg.Client(config);
+
+database.connect(err => {
+  if (err) throw err;
+  else { queryDatabase(); }
+});
+
+function queryDatabase() {
+  const query = 
+      `CREATE TABLE IF NOT EXISTS recipes (
+      id SERIAL PRIMARY KEY,
+      title TEXT,
+      url TEXT,
+      ingredients TEXT
+    );`
+  ;
+
+  database
+      .query(query)
+      .then(() => {
+          console.log('Table created successfully!');
+          //database.end(console.log('Closed client connection'));
+      })
+      .catch(err => console.log(err))
+      .then(() => {
+          console.log('Finished execution, exiting now');
+          //process.exit();
+      });
+}
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.use(cors());
 
 // Used to retrieve data from POST requests
