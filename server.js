@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 
 // 1st param -Path
 // 2nd param -Function
-app.get('/', greeting);
+app.get('/', test);
 app.get('/recipes', getRecipes);
 app.get('/list', createList);
 app.post('/save', saveRecipe);
@@ -36,8 +36,8 @@ app.post('/save', saveRecipe);
 // response: all the 'stuff' we're sending back to the user
 // client: who is making the request
 // server: who is responding to the request
-function greeting(request, response) {
-    response.send("<h1> A+ Best Team USA </h1><ol><li>This is a list</li></ol>");
+function test(request, response) {
+    response.send("Hello World!");
 }
 
 function getRecipes(request, response) {
@@ -74,4 +74,4 @@ function createList(request, response) {
 }
 
 // Starts server, always at end of file
-app.listen(PORT, () => console.log(`Listening on port 3000`));
+app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
