@@ -33,7 +33,7 @@ function queryDatabase() {
       `DROP TABLE recipes;
       CREATE TABLE IF NOT EXISTS recipes (
       id SERIAL PRIMARY KEY,
-      ingredients TEXT
+      ingredients TEXT UNIQUE
     );`
   ;
 
@@ -41,12 +41,10 @@ function queryDatabase() {
       .query(query)
       .then(() => {
           console.log('Table created successfully!');
-          //database.end(console.log('Closed client connection'));
       })
       .catch(err => console.log(err))
       .then(() => {
           console.log('Finished execution, exiting now');
-          //process.exit();
       });
 }
 
@@ -91,9 +89,8 @@ function getRecipes(request, response) {
 
 function saveRecipe(request, response) {
   console.log(request.body);
-  const inArr = request.body.ingredients.split(", ");
   const SQL = `INSERT INTO recipes (ingredients) VALUES ($1) ON CONFLICT DO NOTHING RETURNING id;`;
-  // const values = [request.body.ingredients];
+  const inArr = request.body.ingredients.split(", ");
   inArr.forEach(ingredient => {
     database.query(SQL, [ingredient])
       .then(result => {
