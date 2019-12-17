@@ -29,10 +29,10 @@ database.connect(err => {
 
 function queryDatabase() {
   const query = 
-      `CREATE TABLE IF NOT EXISTS recipes (
+      // WILL CLEAR EVERYTHING ON DEPLOYMENT!
+      `DROP TABLE recipes;
+      CREATE TABLE IF NOT EXISTS recipes (
       id SERIAL PRIMARY KEY,
-      title TEXT,
-      url TEXT,
       ingredients TEXT
     );`
   ;
@@ -67,6 +67,7 @@ app.get('/', test);
 app.get('/recipes', getRecipes);
 app.get('/list', createList);
 app.post('/save', saveRecipe);
+app.post('/delete', deleteItems);
 
 // request: all the 'stuff' we're sending to the server
 // response: all the 'stuff' we're sending back to the user
@@ -90,13 +91,16 @@ function getRecipes(request, response) {
 
 function saveRecipe(request, response) {
   console.log(request.body);
-  const SQL = `INSERT INTO recipes (title, url, ingredients) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING RETURNING id;`;
-  const values = [request.body.title, request.body.href, request.body.ingredients];
-  database.query(SQL, values)
-    .then(result => {
-      response.send({"info" : result.rows[0].id});
-    })
-    .catch(error => console.error(error));
+  const inArr = request.body.ingredients.split(", ");
+  const SQL = `INSERT INTO recipes (ingredients) VALUES ($1) ON CONFLICT DO NOTHING RETURNING id;`;
+  // const values = [request.body.ingredients];
+  inArr.forEach(ingredient => {
+    database.query(SQL, [ingredient])
+      .then(result => {
+        response.send({"info" : result.rows[0].id});
+      })
+      .catch(error => console.error(error));
+  })
 }
 
 function createList(request, response) {
@@ -107,6 +111,17 @@ function createList(request, response) {
       response.send(result.rows);
     })
   .catch(error => console.error(error));
+}
+
+function deleteItems(request, response) {
+  const SQL = `DELETE FROM recipes WHERE id=$1;`;
+  request.body.ids.forEach(id => {
+    database.query(SQL, [id])
+      .then(result => {
+        response.send({"info" : "deleted items"});
+      })
+      .catch(error => console.error(error));  
+  });  
 }
 
 // Starts server, always at end of file
