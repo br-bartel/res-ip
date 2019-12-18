@@ -9,7 +9,6 @@ This repo contains the Node.js Express back-end and is deployed on Azure Web App
 [https://github.com/xobre/res-ip-frontend](https://github.com/xobre/res-ip-frontend)
 ### Tools & Technologies
 * Azure Web App, Database for PostgreSQL, & Pipelines
-* YAML - Yet Another Markup Language
 * NPM : Express, Superagent, Cors, Pg, Dotenv, & Bodyparser
 * Languages : Node.js, SQL, YAML (Yet Another Markup Language), & Git
 ### Resources
