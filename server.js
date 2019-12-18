@@ -72,7 +72,7 @@ app.post('/delete', deleteItems);
 // client: who is making the request
 // server: who is responding to the request
 function test(request, response) {
-    response.send("Hello World!");
+    response.send("Test: Hello World!");
 }
 
 function getRecipes(request, response) {
